@@ -1,45 +1,60 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-function Square() {
+function Square({squares, number, setSquares, isXNext, setLastTurn}) {
   return (
-    <button className="square">
-      {/* TODO */}
+    <button 
+      className="square"
+      onClick ={() => {
+        const newSquares = [...squares]
+        newSquares[number] = isXNext ? 'X' : '0'
+        setSquares(newSquares)
+        setLastTurn(!isXNext)
+      }} 
+    >
+      {squares[number]}
     </button>
   );
 }
 
-class Board extends React.Component {
-  renderSquare(i) {
-    return <Square />;
+function Board() {
+  const [squares, setSquares] = useState(Array(9).fill(null))
+  const [isXNext, setLastTurn] = useState(true)
+
+  function renderSquare(i) {
+    return <Square
+      number={i}
+      squares={squares}
+      setSquares={setSquares}
+      setLastTurn={setLastTurn}
+      isXNext={isXNext}
+    />;
   }
 
-  render() {
-    const status = 'Next player: X';
+  const status = `Next player: ${isXNext ? 'X' : '0'}`
 
-    return (
-      <div>
-        <div className="status">{status}</div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+  return (
+    <div>
+      <div className="status">{status}</div>
+      <div className="board-row">
+        {renderSquare(0)}
+        {renderSquare(1)}
+        {renderSquare(2)}
       </div>
-    );
-  }
-}
+      <div className="board-row">
+        {renderSquare(3)}
+        {renderSquare(4)}
+        {renderSquare(5)}
+      </div>
+      <div className="board-row">
+        {renderSquare(6)}
+        {renderSquare(7)}
+        {renderSquare(8)}
+      </div>
+    </div>
+  );
+};
 
 class Game extends React.Component {
   render() {
