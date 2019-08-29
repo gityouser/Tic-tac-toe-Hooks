@@ -37,6 +37,7 @@ function Board() {
   return (
     <div>
       <div className="status">{status}</div>
+      <div>This is to test pull requests on this repository.</div>
       <div className="board-row">
         {renderSquare(0)}
         {renderSquare(1)}
